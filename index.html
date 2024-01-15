@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+ 
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe Game</title>
+  <style>
+   
+   
+    body {
+        
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 5px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ddd;
+      font-size: 2em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .cell:hover {
+      background-color: #ccc;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.5em;
+    }
+
+    .replay {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .replay button {
+      padding: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .replay button:hover {
+      background-color: #45a049;
+    }
+    h2{
+      position: absolute;
+        top: 20px;
+        margin-left: -90px ;
+        background-color: bisque;
+
+    }
+ 
+  </style>
+</head>
+<body>
+    <h2>created by ujjwal</h2>
+
+<div class="board" id="board">
+  <div class="cell" data-index="0"></div>
+  <div class="cell" data-index="1"></div>
+  <div class="cell" data-index="2"></div>
+  <div class="cell" data-index="3"></div>
+  <div class="cell" data-index="4"></div>
+  <div class="cell" data-index="5"></div>
+  <div class="cell" data-index="6"></div>
+  <div class="cell" data-index="7"></div>
+  <div class="cell" data-index="8"></div>
+</div>
+
+<div class="result" id="result"></div>
+<div class="replay" id="replay"><button onclick="restartGame()">Replay</button></div>
+
+<script>
+  const board = document.getElementById('board');
+  const resultDisplay = document.getElementById('result');
+  const replayButton = document.getElementById('replay');
+
+  let currentPlayer = 'X';
+
+  let boardState = ['', '', '', '', '', '', '', '', ''];
+  let gameActive = true;
+
+  board.addEventListener('click', handleCellClick);
+
+  function handleCellClick(event) {
+    const cell = event.target;
+    const index = cell.dataset.index;
+
+    if (boardState[index] === '' && gameActive) {
+      boardState[index] = currentPlayer;
+      cell.textContent = currentPlayer;
+      checkWinner();
+      togglePlayer();
+    }
+  }
+
+  function togglePlayer() {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  }
+
+  function checkWinner() {
+    const winningCombinations = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
+    ];
+
+    for (const combination of winningCombinations) {
+      const [a, b, c] = combination;
+      if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
+        displayResult(`${currentPlayer} wins!`);
+        gameActive = false;
+        return;
+      }
+    }
+
+    if (!boardState.includes('')) {
+      displayResult("It's a draw!");
+      gameActive = false;
+    }
+  }
+
+  function displayResult(message) {
+    resultDisplay.textContent = message;
+  }
+
+  function restartGame() {
+    boardState = ['', '', '', '', '', '', '', '', ''];
+    currentPlayer = 'X';
+    gameActive = true;
+
+    resultDisplay.textContent = '';
+    board.querySelectorAll('.cell').forEach(cell => {
+      cell.textContent = '';
+    });
+  }
+</script>
+
+</body>
+</html>
+
+  
+</body>
+</html>
